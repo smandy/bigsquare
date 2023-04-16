@@ -27,6 +27,24 @@ template <typename T> class Grid;
 
 template <typename T> ostream &operator<<(ostream &os, Grid<T> &g);
 
+template <typename T>
+struct dv;
+
+template <>
+struct dv<char> {
+    enum { value = ' ' };
+};
+
+template <>
+struct dv<int> {
+    enum { value = 0 };
+};
+
+template <>
+struct dv<unsigned int> {
+    enum { value = 0};
+};
+
 template <typename T> class Grid {
   vector<T> data;
 
@@ -36,7 +54,7 @@ public:
 
   inline int idx(int i, int j) { return i * n + j; };
 
-  Grid(int _n, bool _debug = false) : data(_n * _n), n(_n), debug(_debug) {
+    Grid(int _n, bool _debug = false, const T& def = dv<T>::value) : data(_n * _n, def), n(_n), debug(_debug) {
     for (int i = 0; i < n; ++i) {
       // std::cout << data[i] << std::endl;
     };
