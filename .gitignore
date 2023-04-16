@@ -4,7 +4,6 @@
 /cpp/.sconsign.dblite
 /cpp/grid
 /cpp/grid.o
-output*.txt
 *.sh#
 /cpp/enab
 /cpp/*.o
