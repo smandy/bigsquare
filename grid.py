@@ -38,6 +38,7 @@ class Grid:
                 else:
                     count += 1
                 xextents[y,x] = count
+                
         for x in range(self.n):
             count = 0
             for y in range(self.n):

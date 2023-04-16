@@ -4,7 +4,189 @@
 
 ** Rough Algo
 
+*** Scan through the array (n^2)
+
+    Keep a running tally of how many unbroken 1's you're leaving
+    behind you in the X+Y directions.
+
+    Did it as one scan for x direction and one scan for y
+    direction. Probably can be tightened up.
+
+*** Based on first step
+
+    Figure out what could be the biggest square at each point,
+
+    It'll be the min of the X extent and the Y extent. So for this one
+    we can expect a maximum square of length 3 at (0,0)
+
+ #+BEGIN_SRC python
+ lines11 = """
+ XXXX      |
+ X???      |
+ X???      |
+           |
+           |
+           |
+ #+END_SRC
+
+
+*** This might be the dodgy bit.
+    
+    At this point we've got an array of length n, the index of array
+    will be potential square size, and the value will be the x,y of a
+    square of that side. ( Or to be specific, the lower right hand
+    side of that potential square).
+
+    From here go through the array in reverse order, and for each
+    potential square do an x,y sweep to verify all the interior points
+    are populated as well. 
+
+    So far we've only done several n^2 operations in order so big-O up
+    till now is still n^2
+
+    This is the dodgy step as I'm not sure if this keeps us still
+    within (n^2) or if this makes it (n^3).
+
+
+
+*** Test Data
+
 #+BEGIN_SRC python
+lines1= """
+   XXX    |
+   XXX    |
+   XXX    |
+          |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+          |
+"""
+
+
+lines2 = """
+   XXXX   |
+   XXXX   |
+   XXXX   |
+   XXXX   |
+          |
+          |
+          |
+          |
+          |
+          |
+"""
+
+lines3  = """
+   XXXX   |
+   XXXX   |
+   XXXX   |
+   XXXX   |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+      XXX |
+"""
+
+lines4 = """
+   XXXX   |
+   XXXX   |
+  XXXXX   |
+  XXXXX   |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+    XXXXX |
+      XXX |
+"""
+
+lines5 = """
+     XX   |
+     XX   |
+  XX  X   |
+  XX      |
+  XXXXXXX |
+  XXXXXXX |
+  XXXXXXX |
+  XXXXXXX |
+  XXXXXXX |
+  XXXXXXX |
+"""
+
+lines6 = """
+          |
+ XXXXXXX  |
+  XXXXXXXX|
+ XXXXXXXXX|
+ XXXXXXXXX|
+ XXXXXXXXX|
+ XXXXXXXXX|
+          |
+          |
+          |
+"""
+
+
+lines7 = """
+          |
+ XX       |
+ XXXX     |
+  XXXXX   |
+  XXXXX   |
+   XXXX   |
+   XXXX   |
+          |
+          |
+          |
+"""
+
+
+lines8 = """
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+XXXXXXXXXX|
+"""
+
+lines9 = """
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+          |
+"""
+
+
+lines10 = """
+X         |
+ XX       |
+ XX       |
+   XXX    |
+   XXX    |
+   XXX    |
+      XXXX|
+      XXXX|
+      XXXX|
+      XXXX|
+"""
+
+
 lines11 = """
 XXXXXXXXXX|
 XXXXXXXXXX|
@@ -17,4 +199,144 @@ XXXXXXXXXX|
 XXXXXXXXXX|
 XXXXXXXXXX|
 """
-#+END_SRC   
+#+END_SRC
+
+    
+
+*** Outputs
+
+
+#+BEGIN_SRC
+============================
+biggest is 5 at (4,4)
+   XXX    
+   XXX    
+   XXX    
+          
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+          
+============================
+biggest is 4 at (0,3)
+   XXXX   
+   XXXX   
+   XXXX   
+   XXXX   
+          
+          
+          
+          
+          
+          
+============================
+biggest is 5 at (4,4)
+   XXXX   
+   XXXX   
+   XXXX   
+   XXXX   
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+      XXX 
+============================
+biggest is 5 at (4,4)
+   XXXX   
+   XXXX   
+  XXXXX   
+  XXXXX   
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+    XXXXX 
+      XXX 
+============================
+biggest is 6 at (4,3)
+     XX   
+     XX   
+  XX  X   
+  XX      
+  XXXXXXX 
+  XXXXXXX 
+  XXXXXXX 
+  XXXXXXX 
+  XXXXXXX 
+  XXXXXXX 
+============================
+biggest is 6 at (1,2)
+          
+ XXXXXXX  
+  XXXXXXXX
+ XXXXXXXXX
+ XXXXXXXXX
+ XXXXXXXXX
+ XXXXXXXXX
+          
+          
+          
+============================
+biggest is 4 at (3,3)
+          
+ XX       
+ XXXX     
+  XXXXX   
+  XXXXX   
+   XXXX   
+   XXXX   
+          
+          
+          
+============================
+biggest is 10 at (0,0)
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+============================
+Nothing - empty grid?
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+============================
+biggest is 4 at (6,6)
+X         
+ XX       
+ XX       
+   XXX    
+   XXX    
+   XXX    
+      XXXX
+      XXXX
+      XXXX
+      XXXX
+============================
+biggest is 5 at (5,1)
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXX XXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+XXXXXXXXXX
+#+END_SRC
