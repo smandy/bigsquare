@@ -48,6 +48,33 @@
     This is the dodgy step as I'm not sure if this keeps us still
     within (n^2) or if this makes it (n^3).
 
+    Scratching my head a bit as intuition is that this last step will
+    require significantly less than n^2 operations. Trying to think
+    of a pattern to 'game' the algo to being it up to n^3 but
+    intuition is that there's no input data that would cause you to
+    need to do more than n^2 steps at this point (because the number
+      of points that 
+
+    To 'game' it you'd need to have a carefully arranged set of
+    overlapping squares of different size. Some thing like this, but
+    even then I can't see it approaching N^2
+
+    Anyway - enough time on this.
+
+    #+BEGIN_SRC python
+    lines12 = """
+    X         |
+     XX       |
+     XXXX     |
+      XXXXXXX |
+      XXXXXXX |
+       XXXXXX |
+       XXXXXX |
+        XXXXX |
+              |
+    X         |
+    """
+    #+END_SRC
 
 
 *** Test Data
@@ -199,6 +226,22 @@ XXXXXXXXXX|
 XXXXXXXXXX|
 XXXXXXXXXX|
 XXXXXXXXXX|
+"""
+#+END_SRC
+
+
+#+BEGIN_SRC python
+lines12 = """
+X         |
+ XX       |
+ XXXX     |
+  XXXXXXX |
+  XXXXXXX |
+   XXXXXX |
+   XXXXXX |
+    XXXXX |
+          |
+X         |
 """
 #+END_SRC
 
