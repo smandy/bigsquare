@@ -1,6 +1,7 @@
 
 
-env = Environment(CPPFLAGS  = ['-std=c++23', '-g'])
+env = Environment(CPPFLAGS  = ['-std=c++23', '-g'],
+                  LIBS=['docopt'])
 
 
 env.Program('grid.cpp')

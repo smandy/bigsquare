@@ -1,4 +1,7 @@
+#include "docopt/docopt.h"
+#include "printers.hpp"
 #include <algorithm>
+#include <cstring>
 #include <fstream>
 #include <iostream>
 #include <iterator>
@@ -7,7 +10,16 @@
 #include <tuple>
 #include <vector>
 
-#include "printers.hpp"
+static const char USAGE[] =
+    R"(Grid.
+
+    Usage:
+      grid [--debug] <filename>
+
+    Options:
+      -h --help  Show this screen.
+      --debug  Debug output.
+)";
 
 using namespace std;
 
@@ -20,10 +32,11 @@ template <typename T> class Grid {
 
 public:
   const int n;
+  bool debug;
 
   inline int idx(int i, int j) { return i * n + j; };
 
-  Grid(int _n) : data(_n * _n), n(_n) {
+  Grid(int _n, bool _debug = false) : data(_n * _n), n(_n), debug(_debug) {
     for (int i = 0; i < n; ++i) {
       // std::cout << data[i] << std::endl;
     };
@@ -52,7 +65,7 @@ public:
       }
     }
 
-    if (false) {
+    if (debug) {
       cout << "Y extents" << endl;
       cout << yextents << endl;
       cout << endl << "X extents" << endl;
@@ -101,7 +114,7 @@ template <typename T> ostream &operator<<(ostream &os, Grid<T> &g) {
   return os;
 };
 
-Grid<char> parseFile(string &&fn, int sz) {
+Grid<char> parseFile(const string &fn, int sz) {
   Grid<char> ret(9);
   size_t i = 0;
   std::ifstream file(fn);
@@ -134,14 +147,21 @@ template <> ostream &operator<<(ostream &os, Grid<char> &g) {
   return os;
 }
 
-int main(int argc, char *argv[]) {
-  auto x = parseFile(string(argv[1]), 9);
+int main(int argc, const char **argv) {
+  std::map<std::string, docopt::value> args =
+      docopt::docopt(USAGE, {argv + 1, argv + argc},
+                     true, // show help if requested
+                     "grid 1.0", // version string
+                     true); // options first
+  auto x = parseFile(args["<filename>"].asString(), 9);
+
+  x.debug = args["--debug"].asBool();
 
   cout << "=======================" << endl;
   cout << x << endl;
   cout << "=======================" << endl;
 
-  int i,j,sz;
-  std::tie(i,j,sz) = x.biggest();
+  int i, j, sz;
+  std::tie(i, j, sz) = x.biggest();
   cout << "Biggest size is " << sz << " at (" << i << "," << j << ")" << endl;
-};
+}
