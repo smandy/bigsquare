@@ -4,7 +4,7 @@
 
 ** Rough Algo
 
-*** Scan through the array (n^2)
+   1) Scan through the array (n^2)
 
     Keep a running tally of how many unbroken 1's you're leaving
     behind you in the X+Y directions.
@@ -12,25 +12,26 @@
     Did it as one scan for x direction and one scan for y
     direction. Probably can be tightened up.
 
-*** Based on first step
+   2) Step 2
 
-    Figure out what could be the biggest square at each point,
+   Figure out what could be the biggest square at each point, based
+   on output of step 1
 
-    It'll be the min of the X extent and the Y extent. So for this one
-    we can expect a maximum square of length 3 at (0,0)
+   It'll be the min of the X extent and the Y extent. So for this one
+   we can expect a maximum square of length 3 at (0,0)
 
- #+BEGIN_SRC python
- lines11 = """
- XXXX      |
- X???      |
- X???      |
-           |
-           |
-           |
- #+END_SRC
+    #+BEGIN_SRC python
+    lines11 = """
+    XXXX      |
+    X???      |
+    X???      |
+              |
+              |
+              |
+    #+END_SRC
 
 
-*** This might be the dodgy bit.
+   3) Step 3 - This might be a dodgy
     
     At this point we've got an array of length n, the index of array
     will be potential square size, and the value will be the x,y of a
