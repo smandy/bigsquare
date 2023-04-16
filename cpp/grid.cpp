@@ -33,14 +33,9 @@ template <class T, class Enable = void> struct DefaultFor {
 };
 
 template <class T>
-struct DefaultFor<T, typename enable_if<is_same_v<T, uint64_t>>::type> {
-  enum { value = 42 };
-};
-
-template <class T>
-struct DefaultFor<T, typename enable_if<is_same<T, char>::value>::type> {
+struct DefaultFor<T, typename enable_if<is_same<T, uint8_t>::value>::type> {
   enum { value = ' ' };
-}; // specialization for char
+}; // specialization for uint8_t
 
 template <typename T> class Grid {
   vector<T> data;
@@ -57,9 +52,9 @@ public:
   T &operator[](int i, int j) { return data[idx(i, j)]; }
 
   tuple<int, int, int> biggest() {
-    Grid<uint32_t> yextents(n);
-    Grid<uint32_t> xextents(n);
-    Grid<uint32_t> sizes(n);
+    Grid<uint16_t> yextents(n);
+    Grid<uint16_t> xextents(n);
+    Grid<uint16_t> sizes(n);
 
     // cout << yextents << endl;
     // cout << xextents << endl;
@@ -116,8 +111,8 @@ public:
   };
 };
 
-Grid<char> parseFile(const string &fn, int sz) {
-  Grid<char> ret(9);
+Grid<uint8_t> parseFile(const string &fn, int sz) {
+  Grid<uint8_t> ret(9);
   size_t i = 0;
   std::ifstream file(fn);
   if (file.is_open()) {
