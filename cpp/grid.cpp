@@ -33,6 +33,12 @@ template <class T, class Enable = void> struct dv {
 };
 
 template <class T>
+struct dv<T, typename enable_if<is_same_v<T,uint64_t>>::type > {
+  enum { value = 42 };
+};
+
+
+template <class T>
 struct dv<T, typename std::enable_if<std::is_same<T, char>::value>::type> {
   enum { value = ' ' };
 }; // specialization for char
