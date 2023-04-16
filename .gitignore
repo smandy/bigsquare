@@ -1,3 +1,6 @@
 /grid.py~
 *~
 /__pycache__/*.pyc
+/cpp/.sconsign.dblite
+/cpp/grid
+/cpp/grid.o
