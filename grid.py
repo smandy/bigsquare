@@ -61,8 +61,9 @@ class Grid:
         while True:
             if bests[trySize]:
                 # Figure out potential square start points
-                i = bests[trySize][0]-trySize+1
-                j = bests[trySize][1]-trySize+1
+                y,x = bests[trySize]
+                i = y-trySize+1
+                j = x-trySize+1
                 if self.isSquare(i, j, trySize ):
                     return (i,j,trySize)
             trySize -= 1
