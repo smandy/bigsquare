@@ -33,10 +33,9 @@ template <class T, class Enable = void> struct DefaultFor {
 };
 
 template <class T>
-struct DefaultFor<T, typename enable_if<is_same_v<T,uint64_t>>::type > {
+struct DefaultFor<T, typename enable_if<is_same_v<T, uint64_t>>::type> {
   enum { value = 42 };
 };
-
 
 template <class T>
 struct DefaultFor<T, typename enable_if<is_same<T, char>::value>::type> {
@@ -143,8 +142,8 @@ Grid<char> parseFile(const string &fn, int sz) {
 template <typename T> ostream &operator<<(ostream &os, Grid<T> &g) {
   for (int i = 0; i < g.n; ++i) {
     for (int j = 0; j < g.n; ++j) {
-        os << g[i, j];
-        //      os << (g[i, j] == '\0' ? ' ' : g[i, j]);
+      os << g[i, j];
+      //      os << (g[i, j] == '\0' ? ' ' : g[i, j]);
     };
     os << std::endl;
   }
