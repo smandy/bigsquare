@@ -8,6 +8,7 @@
 #include <sstream>
 #include <string>
 #include <tuple>
+#include <type_traits>
 #include <vector>
 
 static const char USAGE[] =
@@ -27,23 +28,14 @@ template <typename T> class Grid;
 
 template <typename T> ostream &operator<<(ostream &os, Grid<T> &g);
 
-template <typename T>
-struct dv;
-
-template <>
-struct dv<char> {
-    enum { value = ' ' };
+template <class T, class Enable = void> struct dv {
+  enum { value = 0 };
 };
 
-template <>
-struct dv<int> {
-    enum { value = 0 };
-};
-
-template <>
-struct dv<unsigned int> {
-    enum { value = 0};
-};
+template <class T>
+struct dv<T, typename std::enable_if<std::is_same<T, char>::value>::type> {
+  enum { value = ' ' };
+}; // specialization for char
 
 template <typename T> class Grid {
   vector<T> data;
@@ -54,11 +46,8 @@ public:
 
   inline int idx(int i, int j) { return i * n + j; };
 
-    Grid(int _n, bool _debug = false, const T& def = dv<T>::value) : data(_n * _n, def), n(_n), debug(_debug) {
-    for (int i = 0; i < n; ++i) {
-      // std::cout << data[i] << std::endl;
-    };
-  }
+  Grid(int _n, bool _debug = false, const T &def = dv<T>::value)
+      : data(_n * _n, def), n(_n), debug(_debug) {}
 
   T &operator[](int i, int j) { return data[idx(i, j)]; }
 
@@ -88,7 +77,7 @@ public:
       cout << yextents << endl;
       cout << endl << "X extents" << endl;
       cout << xextents;
-      cout << "Sizes" << endl;
+      cout << endl << "Sizes" << endl;
       cout << sizes << endl;
       cout << "Bests " << endl;
       for_each(begin(bests), end(bests),
@@ -168,9 +157,9 @@ template <> ostream &operator<<(ostream &os, Grid<char> &g) {
 int main(int argc, const char **argv) {
   std::map<std::string, docopt::value> args =
       docopt::docopt(USAGE, {argv + 1, argv + argc},
-                     true, // show help if requested
+                     true,       // show help if requested
                      "grid 1.0", // version string
-                     true); // options first
+                     true);      // options first
   auto x = parseFile(args["<filename>"].asString(), 9);
 
   x.debug = args["--debug"].asBool();

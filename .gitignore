@@ -6,3 +6,5 @@
 /cpp/grid.o
 output*.txt
 *.sh#
+/cpp/enab
+/cpp/*.o

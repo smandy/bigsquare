@@ -3,3 +3,5 @@ env = Environment(CPPFLAGS  = ['-std=c++23', '-g'],
 
 
 env.Program('grid.cpp')
+
+env.Program('enab.cpp')
