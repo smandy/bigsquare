@@ -28,18 +28,18 @@ template <typename T> class Grid;
 
 template <typename T> ostream &operator<<(ostream &os, Grid<T> &g);
 
-template <class T, class Enable = void> struct dv {
+template <class T, class Enable = void> struct DefaultFor {
   enum { value = 0 };
 };
 
 template <class T>
-struct dv<T, typename enable_if<is_same_v<T,uint64_t>>::type > {
+struct DefaultFor<T, typename enable_if<is_same_v<T,uint64_t>>::type > {
   enum { value = 42 };
 };
 
 
 template <class T>
-struct dv<T, typename std::enable_if<std::is_same<T, char>::value>::type> {
+struct DefaultFor<T, typename enable_if<is_same<T, char>::value>::type> {
   enum { value = ' ' };
 }; // specialization for char
 
@@ -52,7 +52,7 @@ public:
 
   inline int idx(int i, int j) { return i * n + j; };
 
-  Grid(int _n, bool _debug = false, const T &def = dv<T>::value)
+  Grid(int _n, bool _debug = false, const T &def = DefaultFor<T>::value)
       : data(_n * _n, def), n(_n), debug(_debug) {}
 
   T &operator[](int i, int j) { return data[idx(i, j)]; }
@@ -65,7 +65,7 @@ public:
     // cout << yextents << endl;
     // cout << xextents << endl;
     typedef tuple<int, int> Best;
-    std::vector<std::vector<Best>> bests(n + 1);
+    vector<std::vector<Best>> bests(n + 1);
     for (int i = 0; i < n; ++i) {
       for (int j = 0; j < n; ++j) {
         if (operator[](i, j) != ' ') {
@@ -117,16 +117,6 @@ public:
   };
 };
 
-template <typename T> ostream &operator<<(ostream &os, Grid<T> &g) {
-  for (int i = 0; i < g.n; ++i) {
-    for (int j = 0; j < g.n; ++j) {
-      os << g[i, j];
-    };
-    os << std::endl;
-  }
-  return os;
-};
-
 Grid<char> parseFile(const string &fn, int sz) {
   Grid<char> ret(9);
   size_t i = 0;
@@ -150,10 +140,11 @@ Grid<char> parseFile(const string &fn, int sz) {
   return ret;
 };
 
-template <> ostream &operator<<(ostream &os, Grid<char> &g) {
+template <typename T> ostream &operator<<(ostream &os, Grid<T> &g) {
   for (int i = 0; i < g.n; ++i) {
     for (int j = 0; j < g.n; ++j) {
-      os << (g[i, j] == '\0' ? ' ' : g[i, j]);
+        os << g[i, j];
+        //      os << (g[i, j] == '\0' ? ' ' : g[i, j]);
     };
     os << std::endl;
   }
