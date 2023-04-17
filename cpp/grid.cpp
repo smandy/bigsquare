@@ -49,6 +49,9 @@ public:
   Grid(int _n, bool _debug = false, const T &def = DefaultFor<T>::value)
       : data(_n * _n, def), n(_n), debug(_debug) {}
 
+    //Grid( const Grid&) = delete;
+    Grid& operator=(const Grid& g) = delete;    
+
   T &operator[](int i, int j) { return data[idx(i, j)]; }
 
   tuple<int, int, int> biggest() {
@@ -130,7 +133,6 @@ Grid<uint8_t> parseFile(const string &fn, int sz) {
   } else {
     cout << "File not open" << endl;
   };
-
   return ret;
 };
 
