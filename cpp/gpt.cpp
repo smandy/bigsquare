@@ -4,6 +4,8 @@
 
 using namespace std;
 
+#include "printers.hpp"
+
 int main() {
     // Example input 2D array
     vector<vector<int>> arr = {
@@ -38,6 +40,11 @@ int main() {
             }
         }
     }
+
+
+    for_each( begin(dp), end(dp), [&](auto x) {
+        cout << x << endl;
+    });
     
     // Find the largest square
     int max_size = 0;

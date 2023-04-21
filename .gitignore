@@ -7,3 +7,4 @@
 *.sh#
 /cpp/enab
 /cpp/*.o
+/cpp/gpt
