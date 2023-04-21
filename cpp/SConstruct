@@ -1,7 +1,7 @@
 env = Environment(CPPFLAGS  = ['-std=c++23', '-g'],
                   LIBS=['docopt'])
-
-
 env.Program('grid.cpp')
 
 env.Program('enab.cpp')
+
+env.Program('gpt.cpp')
